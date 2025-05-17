@@ -1,20 +1,23 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../middlewares/auth');
+
 const {
     getAllMultimedia,
     createMultimedia,
+    updateMultimedia,
     associateToHeroe,
     getMultimediaByHeroe,
-    updateMultimedia,
+    removeAssociation,
     deleteMultimedia
 } = require('../controllers/multimedia');
 
-router.get('/', getAllMultimedia);
-router.post('/', createMultimedia);
-router.put('/:id', updateMultimedia);
-router.delete('/:id', deleteMultimedia);
-
-router.post('/associate', associateToHeroe);
-router.get('/heroe/:heroeId', getMultimediaByHeroe);
+router.get('/', auth, getAllMultimedia);
+router.post('/', auth, createMultimedia);
+router.put('/:id', auth, updateMultimedia);
+router.post('/associate', auth, associateToHeroe);
+router.get('/heroe/:heroeId', auth, getMultimediaByHeroe);
+router.delete('/:heroeId/:multimediaId', auth, removeAssociation);
+router.delete('/solo/:id', auth, deleteMultimedia);
 
 module.exports = router;

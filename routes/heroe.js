@@ -1,5 +1,7 @@
 const express = require('express');
+const auth = require('../middlewares/auth');
 const router = express.Router();
+
 const {
     getAllHeroes,
     getHeroeById,
@@ -9,10 +11,10 @@ const {
     searchHeroes
 } = require('../controllers/heroe');
 
-router.get('/', getAllHeroes);
-router.get('/:id', getHeroeById);
-router.post('/', createHeroe);
-router.put('/:id', updateHeroe);
-router.delete('/:id', deleteHeroe);
+router.get('/', auth, getAllHeroes);
+router.get('/:id', auth, getHeroeById);
+router.post('/', auth, createHeroe);
+router.put('/:id', auth, updateHeroe);
+router.delete('/:id', auth, deleteHeroe);
 
 module.exports = router;

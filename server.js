@@ -19,6 +19,7 @@ app.use(express.json());
 
 connectDB();
 
+app.use('/api/auth', authRoutes);
 app.use('/api/heroes', heroesRoutes);
 app.use('/api/multimedia', multimediaRoutes);
 

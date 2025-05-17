@@ -7,6 +7,7 @@ const errorHandler = require('./middlewares/errorHandler');
 
 const heroesRoutes = require('./routes/heroe');
 const multimediaRoutes = require('./routes/multimedia');
+const authRoutes = require('./routes/auth');
 
 // Configuración de Express
 const app = express();

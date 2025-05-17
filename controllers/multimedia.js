@@ -139,6 +139,19 @@ exports.updateMultimedia = async (req, res) => {
     }
 };
 
+exports.deleteMultimedia = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deleted = await Multimedia.findByIdAndDelete(id);
+        if (!deleted) {
+            return res.status(404).json({ success: false, message: 'Multimedia no encontrada' });
+        }
+    } catch (err) {
+        console.error('Error eliminando multimedia:', err);
+        res.status(500).json({ success: false, message: err.message });
+    }
+};
+
 exports.removeAssociation = async (req, res) => {
     try {
         const { heroeId, multimediaId } = req.params;
@@ -167,3 +180,4 @@ exports.removeAssociation = async (req, res) => {
         });
     }
 };
+

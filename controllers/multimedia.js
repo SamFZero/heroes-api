@@ -146,38 +146,10 @@ exports.deleteMultimedia = async (req, res) => {
         if (!deleted) {
             return res.status(404).json({ success: false, message: 'Multimedia no encontrada' });
         }
+        await HeroeMultimedia.deleteMany({ multimediaId: id });
+        res.json({ success: true, message: 'Multimedia y asociaciones eliminadas correctamente' });
     } catch (err) {
         console.error('Error eliminando multimedia:', err);
         res.status(500).json({ success: false, message: err.message });
     }
 };
-
-exports.removeAssociation = async (req, res) => {
-    try {
-        const { heroeId, multimediaId } = req.params;
-
-        const deletedAssociation = await HeroeMultimedia.findOneAndDelete({
-            heroeId,
-            multimediaId
-        });
-
-        if (!deletedAssociation) {
-            return res.status(404).json({
-                success: false,
-                message: 'Asociación no encontrada'
-            });
-        }
-
-        res.json({
-            success: true,
-            message: 'Asociación eliminada correctamente'
-        });
-    } catch (err) {
-        console.error('Error eliminando asociación:', err);
-        res.status(500).json({
-            success: false,
-            message: err.message
-        });
-    }
-};
-

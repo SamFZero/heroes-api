@@ -5,7 +5,6 @@ const {
     createMultimedia,
     associateToHeroe,
     getMultimediaByHeroe,
-    removeAssociation,
     updateMultimedia,
     deleteMultimedia
 } = require('../controllers/multimedia');
@@ -17,7 +16,5 @@ router.delete('/:id', deleteMultimedia);
 
 router.post('/associate', associateToHeroe);
 router.get('/heroe/:heroeId', getMultimediaByHeroe);
-router.delete('/:heroeId/:multimediaId', removeAssociation);
-
 
 module.exports = router;

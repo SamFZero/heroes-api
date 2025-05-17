@@ -1,4 +1,5 @@
 const Multimedia = require('../models/multimedia');
+const Heroe = require('../models/heroe'); // ✅ Importación que faltaba
 const HeroeMultimedia = require('../models/heroeMultimedia');
 
 // Obtener toda la multimedia
@@ -10,6 +11,7 @@ exports.getAllMultimedia = async (req, res) => {
             data: multimedia
         });
     } catch (err) {
+        console.error('Error obteniendo multimedia:', err);
         res.status(500).json({
             success: false,
             message: err.message
@@ -35,6 +37,7 @@ exports.createMultimedia = async (req, res) => {
             data: savedMultimedia
         });
     } catch (err) {
+        console.error('Error creando multimedia:', err);
         res.status(400).json({
             success: false,
             message: err.message
@@ -83,6 +86,7 @@ exports.associateToHeroe = async (req, res) => {
             message: 'Multimedia asociada correctamente al héroe'
         });
     } catch (err) {
+        console.error('Error asociando multimedia:', err);
         res.status(500).json({
             success: false,
             message: err.message
@@ -102,6 +106,7 @@ exports.getMultimediaByHeroe = async (req, res) => {
             data: multimedia
         });
     } catch (err) {
+        console.error('Error obteniendo multimedia por héroe:', err);
         res.status(500).json({
             success: false,
             message: err.message
@@ -131,6 +136,7 @@ exports.removeAssociation = async (req, res) => {
             message: 'Asociación eliminada correctamente'
         });
     } catch (err) {
+        console.error('Error eliminando asociación:', err);
         res.status(500).json({
             success: false,
             message: err.message

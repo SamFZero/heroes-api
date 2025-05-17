@@ -2,7 +2,6 @@ const Multimedia = require('../models/multimedia');
 const Heroe = require('../models/heroe'); // ✅ Importación que faltaba
 const HeroeMultimedia = require('../models/heroeMultimedia');
 
-// Obtener toda la multimedia
 exports.getAllMultimedia = async (req, res) => {
     try {
         const multimedia = await Multimedia.find();
@@ -19,7 +18,6 @@ exports.getAllMultimedia = async (req, res) => {
     }
 };
 
-// Crear nuevo elemento multimedia
 exports.createMultimedia = async (req, res) => {
     try {
         const { tipo, url, descripcion } = req.body;
@@ -45,12 +43,10 @@ exports.createMultimedia = async (req, res) => {
     }
 };
 
-// Asociar multimedia a héroe
 exports.associateToHeroe = async (req, res) => {
     try {
         const { heroeId, multimediaId } = req.body;
 
-        // Verificar que existan ambos
         const heroeExists = await Heroe.exists({ _id: heroeId });
         const multimediaExists = await Multimedia.exists({ _id: multimediaId });
 
@@ -61,7 +57,6 @@ exports.associateToHeroe = async (req, res) => {
             });
         }
 
-        // Verificar que no exista ya la asociación
         const existingAssociation = await HeroeMultimedia.findOne({
             heroeId,
             multimediaId
@@ -94,7 +89,6 @@ exports.associateToHeroe = async (req, res) => {
     }
 };
 
-// Obtener multimedia por héroe
 exports.getMultimediaByHeroe = async (req, res) => {
     try {
         const associations = await HeroeMultimedia.find({ heroeId: req.params.heroeId });
@@ -114,7 +108,37 @@ exports.getMultimediaByHeroe = async (req, res) => {
     }
 };
 
-// Eliminar asociación multimedia-héroe
+exports.updateMultimedia = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { tipo, url, descripcion } = req.body;
+
+        const updated = await Multimedia.findByIdAndUpdate(
+            id,
+            { tipo, url, descripcion },
+            { new: true, runValidators: true }
+        );
+
+        if (!updated) {
+            return res.status(404).json({
+                success: false,
+                message: 'Multimedia no encontrada'
+            });
+        }
+
+        res.json({
+            success: true,
+            data: updated
+        });
+    } catch (err) {
+        console.error('Error actualizando multimedia:', err);
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
+    }
+};
+
 exports.removeAssociation = async (req, res) => {
     try {
         const { heroeId, multimediaId } = req.params;
